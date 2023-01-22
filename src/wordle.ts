@@ -61,5 +61,17 @@ export const scoreGuess = (guess: string, answer: string): GuessScore => {
 };
 
 export const validateGuess = (guess: string, game: Game) => {
+    if (!game.dictionary.includes(guess)) return false;
+    if (game.guesses.includes(guess)) return false;
+
+    if (game.guesses.length && game.hardMode) {
+        const lastGuess = game.guesses[game.guesses.length - 1];
+        const lastScore = game.scores[game.scores.length - 1];
+
+        for (let i = 0; i < guess.length; i++) {
+            if (lastScore[i] === CORRECT && lastGuess[i] !== guess[i]) return false;
+            if (lastScore[i] === ALMOST && !guess.includes(lastGuess[i])) return false;
+        }
+    }
     return true;
 }
