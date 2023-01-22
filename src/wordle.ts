@@ -75,3 +75,12 @@ export const validateGuess = (guess: string, game: Game) => {
     }
     return true;
 }
+
+export const makeGuess = (guess: string, game: Game): Game => {
+    return {
+        ...game,
+        guesses: game.guesses.concat([guess]),
+        scores: game.scores.concat([scoreGuess(guess, game.answer)]),
+        guessesRemaining: game.guessesRemaining === 0 ? 0 : game.guessesRemaining - 1,
+    }
+}
