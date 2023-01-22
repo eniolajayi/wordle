@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, beforeEach } from 'vitest';
 import * as Wordle from './wordle';
 
 describe('scoreGuess', () => {
@@ -14,12 +14,12 @@ describe('scoreGuess', () => {
         expect(Wordle.scoreGuess('bx', 'ab')).toEqual(['A', 'I']);
     });
 
-    it('matches letters only once',()=>{
-        expect(Wordle.scoreGuess('cczy','abcd')).toEqual(['A','I','I','I']);
+    it('matches letters only once', () => {
+        expect(Wordle.scoreGuess('cczy', 'abcd')).toEqual(['A', 'I', 'I', 'I']);
     });
 
-    it('matches correct letters first',()=>{
-        expect(Wordle.scoreGuess('zdyd','abcd')).toEqual(['I','I','I','C']);
+    it('matches correct letters first', () => {
+        expect(Wordle.scoreGuess('zdyd', 'abcd')).toEqual(['I', 'I', 'I', 'C']);
     });
 
 
@@ -43,3 +43,49 @@ describe('scoreGuess', () => {
         expect(Wordle.scoreGuess(guess, answer)).toEqual(result.split(''));
     });
 });
+
+
+describe("validateGuess", () => {
+    let game: Wordle.Game;
+
+    beforeEach(() => {
+        const dictionary = [
+            "aaaa", "aabb", "bbaa", "bbbb", "bbba", "aaab"
+        ];
+
+        const answer = "aaab";
+        game = Wordle.createGame(dictionary, answer, false);
+    })
+
+    it("accepts words that ARE in the dictionary", () => {
+        expect(Wordle.validateGuess("aaaa", game)).toEqual(true);
+    });
+
+    it("rejects words that ARE NOT in the dictionary", () => {
+        expect(Wordle.validateGuess("cccc", game)).toEqual(false);
+    });
+
+    it("rejects wordds that have already been guessed", () => {
+        game.guesses.push("aaaa");
+        expect(Wordle.validateGuess("aaaa", game)).toEqual(false);
+    });
+    it("accepts words that do  not use known CORRECT letters in EASY mode", () => {
+        game.guesses.push("aabb");
+        game.scores.push(Wordle.scoreGuess("aabb", game.answer));
+        expect(Wordle.validateGuess("bbaa", game)).toEqual(true);
+    })
+
+    it("rejects words that do not use known CORRECT letters in HARD mode", () => {
+        game.guesses.push("aabb");
+        game.scores.push(Wordle.scoreGuess("aabb", game.answer));
+        game.hardMode = true;
+        expect(Wordle.validateGuess("bbaa", game)).toEqual(false);
+    });
+
+    it("rejects words that do not use known ALMOST letters in HARD mode", () => {
+        game.guesses.push("bbba");
+        game.scores.push(Wordle.scoreGuess("bbba", game.answer));
+        game.hardMode = true;
+        expect(Wordle.validateGuess("aaaa", game)).toEqual(false);
+    });
+})
