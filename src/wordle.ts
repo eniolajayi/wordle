@@ -59,3 +59,7 @@ export const scoreGuess = (guess: string, answer: string): GuessScore => {
     }
     return score;
 };
+
+export const validateGuess = (guess: string, game: Game) =>{
+    return true;
+}
