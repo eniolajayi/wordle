@@ -11,6 +11,7 @@ export type Game = {
     answer: string;
     hardMode: boolean;
     guesses: string[];
+    scores: GuessScore[];
     guessesRemaining: number;
     dictionary: string[];
     maxWordLength: number;
