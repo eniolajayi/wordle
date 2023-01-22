@@ -13,6 +13,7 @@ export type Game = {
     guesses: string[];
     guessesRemaining: number;
     dictionary: string[];
+    maxWordLength: number;
 }
 
 
