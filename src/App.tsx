@@ -3,7 +3,7 @@ import { Guess } from "./Guess";
 
 function App() {
   return (
-    <div className="App">
+    <div className="app">
       <Guess word="word" />
     </div>
   );
