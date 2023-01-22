@@ -17,6 +17,16 @@ export type Game = {
     maxWordLength: number;
 }
 
+export const createGame = (dictionary: string[], answer: string, hardMode = false): Game => {
+    return {
+        answer,
+        hardMode,
+        guesses: [],
+        scores: [],
+        guessesRemaining: 6,
+        dictionary,
+        maxWordLength: 4
+    };
 
 export const scoreGuess = (guess: string, answer: string): GuessScore => {
     const answerLetters = answer.split('');
