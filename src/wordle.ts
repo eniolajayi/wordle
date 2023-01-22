@@ -7,6 +7,14 @@ const EMPTY = '';
 export type LetterScore = typeof CORRECT | typeof ALMOST | typeof INCORRECT;
 export type GuessScore = LetterScore[];
 
+export type Game = {
+    answer: string;
+    hardMode: boolean;
+    guesses: string[];
+    guessesRemaining: number;
+    dictionary: string[];
+}
+
 
 export const scoreGuess = (guess: string, answer: string): GuessScore => {
     const answerLetters = answer.split('');
