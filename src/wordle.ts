@@ -27,6 +27,7 @@ export const createGame = (dictionary: string[], answer: string, hardMode = fals
         dictionary,
         maxWordLength: 4
     };
+}
 
 export const scoreGuess = (guess: string, answer: string): GuessScore => {
     const answerLetters = answer.split('');
