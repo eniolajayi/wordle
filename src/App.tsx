@@ -10,49 +10,7 @@ const rand = (min = 0, max = words.length - 1) => {
   return Math.floor(Math.random() * (max - min) + min);
 };
 
-const useWordle = (): [Wordle.Game, string, boolean] => {
-  const [game, setGame] = useState(
-    Wordle.createGame(words, words[rand()], true)
-  );
-  const [guess, _setGuess] = useState("");
-  const [valid, _setValid] = useState(true);
 
-  const setGuess = useCallback(
-    (guess: string) => {
-      _setGuess(guess);
-      _setValid(
-        guess.length !== game.maxWordLength || Wordle.validateGuess(guess, game)
-      );
-    },
-    [game]
-  );
-
-  const handleKeyDown = useCallback(
-    (e: any) => {
-      const char: string = e.key.toLowerCase();
-
-      if (char === "enter") {
-        if (valid) {
-          setGame(Wordle.makeGuess(guess, game));
-          setGuess("");
-        }
-      } else if (char === "backspace") {
-        setGuess(guess.slice(0, -1));
-      } else if (isLetter(char) && guess.length < game.maxWordLength) {
-        setGuess(guess + char);
-      }
-    },
-    [game, guess, setGuess, valid]
-  );
-
-  useEffect(() => {
-    window.addEventListener("keydown", handleKeyDown);
-
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [handleKeyDown]);
-
-  return [game, guess, valid];
-};
 
 function App() {
   const [game, guess, valid] = useWordle();

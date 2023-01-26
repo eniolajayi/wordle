@@ -1,3 +1,6 @@
+import { useState, useCallback, useEffect } from "react";
+import words from "./words";
+
 export const CORRECT = 'C';
 export const ALMOST = 'A';
 export const INCORRECT = 'I';
@@ -16,6 +19,50 @@ export type Game = {
     dictionary: string[];
     maxWordLength: number;
 }
+
+export const useWordle = (): [Game, string, boolean] => {
+    const [game, setGame] = useState(
+      createGame(words, words[rand()], true)
+    );
+    const [guess, _setGuess] = useState("");
+    const [valid, _setValid] = useState(true);
+  
+    const setGuess = useCallback(
+      (guess: string) => {
+        _setGuess(guess);
+        _setValid(
+          guess.length !== game.maxWordLength || validateGuess(guess, game)
+        );
+      },
+      [game]
+    );
+  
+    const handleKeyDown = useCallback(
+      (e: any) => {
+        const char: string = e.key.toLowerCase();
+  
+        if (char === "enter") {
+          if (valid) {
+            setGame(makeGuess(guess, game));
+            setGuess("");
+          }
+        } else if (char === "backspace") {
+          setGuess(guess.slice(0, -1));
+        } else if (isLetter(char) && guess.length < game.maxWordLength) {
+          setGuess(guess + char);
+        }
+      },
+      [game, guess, setGuess, valid]
+    );
+  
+    useEffect(() => {
+      window.addEventListener("keydown", handleKeyDown);
+  
+      return () => window.removeEventListener("keydown", handleKeyDown);
+    }, [handleKeyDown]);
+  
+    return [game, guess, valid];
+  };
 
 export const createGame = (dictionary: string[], answer: string, hardMode = false): Game => {
     return {
