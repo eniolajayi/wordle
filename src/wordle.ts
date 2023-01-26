@@ -20,6 +20,12 @@ export type Game = {
     maxWordLength: number;
 }
 
+const isLetter = (char: string) => /^[a-z]$/.test(char);
+
+const rand = (min = 0, max = words.length - 1) => {
+  return Math.floor(Math.random() * (max - min) + min);
+};
+
 export const useWordle = (): [Game, string, boolean] => {
     const [game, setGame] = useState(
       createGame(words, words[rand()], true)
