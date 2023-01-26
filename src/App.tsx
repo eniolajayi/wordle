@@ -3,6 +3,7 @@ import * as Wordle from "./wordle";
 import "./App.css";
 import { Guess } from "./Guess";
 import words from "./words";
+import { useWordle } from "./wordle";
 
 const isLetter = (char: string) => /^[a-z]$/.test(char);
 
