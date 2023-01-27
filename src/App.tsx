@@ -7,7 +7,9 @@ function App() {
 
   const emptyRows = Array(Math.max(0, game.guessesRemaining - 1))
     .fill(0)
-    .map((_, idx) => <Guess key={idx} word="" active={false} />);
+    .map((_, idx) => (
+      <Guess key={idx} word={"".padEnd(game.maxWordLength)} active={false} />
+    ));
 
   return (
     <div className="app">
