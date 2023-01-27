@@ -28,8 +28,8 @@ const rand = (min: number, max: number) => {
 
 export const useWordle = (): [Game, string, boolean] => {
     const currentWord = words[rand(0, words.length - 1)];
-    const [game, _setGame] = useState( 
-        createGame(words,currentWord, true)
+    const [game, _setGame] = useState(
+        createGame(words, currentWord, true)
     );
     const [guess, _setGuess] = useState("");
     const [valid, _setValid] = useState(true);
@@ -47,16 +47,21 @@ export const useWordle = (): [Game, string, boolean] => {
     const handleKeyDown = useCallback(
         (e: any) => {
             const char: string = e.key.toLowerCase();
-
-            if (char === "enter") {
-                if (valid) {
-                    _setGame(makeGuess(guess, game));
-                    setGuess("");
-                }
-            } else if (char === "backspace") {
-                setGuess(guess.slice(0, -1));
-            } else if (isLetter(char) && guess.length < game.maxWordLength) {
-                setGuess(guess + char);
+            switch (char) {
+                case "enter":
+                    if (valid) {
+                        _setGame(makeGuess(guess, game));
+                        setGuess("");
+                    }
+                    break;
+                case "backspace":
+                    // pop last item in arr and return new arr
+                    setGuess(guess.slice(0, -1));
+                    break;
+                default:
+                    if (isLetter(char) && guess.length < game.maxWordLength) {
+                        setGuess(guess + char);
+                    }
             }
         },
         [game, guess, setGuess, valid]
@@ -64,7 +69,6 @@ export const useWordle = (): [Game, string, boolean] => {
 
     useEffect(() => {
         window.addEventListener("keydown", handleKeyDown);
-
         return () => window.removeEventListener("keydown", handleKeyDown);
     }, [handleKeyDown]);
 
