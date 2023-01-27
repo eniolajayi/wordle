@@ -28,7 +28,7 @@ const rand = (min: number, max: number) => {
 
 export const useWordle = (): [Game, string, boolean] => {
     const currentWord = words[rand(0, words.length - 1)];
-    const [game, setGame] = useState( 
+    const [game, _setGame] = useState( 
         createGame(words,currentWord, true)
     );
     const [guess, _setGuess] = useState("");
@@ -50,7 +50,7 @@ export const useWordle = (): [Game, string, boolean] => {
 
             if (char === "enter") {
                 if (valid) {
-                    setGame(makeGuess(guess, game));
+                    _setGame(makeGuess(guess, game));
                     setGuess("");
                 }
             } else if (char === "backspace") {
