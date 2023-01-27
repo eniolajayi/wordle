@@ -20,7 +20,7 @@ export type Game = {
     maxWordLength: number;
 }
 
-const isLetter = (char: string) => /^[a-z]$/.test(char);
+const isLetter = (char: string) => char.length === 1 && /^[a-z]$/.test(char);
 
 const rand = (min = 0, max = words.length - 1) => {
   return Math.floor(Math.random() * (max - min) + min);
