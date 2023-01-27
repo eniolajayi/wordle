@@ -3,6 +3,7 @@ import { Guess } from "./Guess";
 import { useWordle } from "./wordle";
 
 function App() {
+  // TODO Ask for reset on game end
   const [game, guess, valid] = useWordle();
 
   const emptyRows = Array(Math.max(0, game.guessesRemaining - 1))
@@ -24,7 +25,7 @@ function App() {
           word={guess.padEnd(game.maxWordLength)}
         />
       )}
-      {emptyRows}
+      {valid && emptyRows}
     </div>
   );
 }
