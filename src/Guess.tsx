@@ -9,7 +9,6 @@ type GuessProps = {
 
 
 export const Guess = ({ word, score, active, valid = true }: GuessProps) => {
-  word = word.padEnd(4);
   return (
     <div
       className={[

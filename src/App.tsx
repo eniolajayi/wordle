@@ -14,14 +14,15 @@ function App() {
       {game.guesses.map((guess, idx) => (
         <Guess key={idx + guess} word={guess} score={game.scores[idx]} />
       ))}
-      {game.guessesRemaining > 0 ? <Guess word={guess} valid={valid} /> : null}
-      {emptyRows}
-      {game.guessesRemaining !== 0 ? null : (
-        <div>
-          <hr />
-          <Guess word={game.answer} score={Array(4).fill("C")} />
-        </div>
+      {game.guessesRemaining > 0 && (
+        <Guess
+          key="guess"
+          active
+          valid={valid}
+          word={guess.padEnd(game.maxWordLength)}
+        />
       )}
+      {emptyRows}
     </div>
   );
 }
