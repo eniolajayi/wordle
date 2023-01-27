@@ -22,12 +22,12 @@ export type Game = {
 
 const isLetter = (char: string) => char.length === 1 && /^[a-z]$/.test(char);
 
-const rand = (min: number, max: number) => {
+const getRandomInt = (min: number, max: number) => {
     return Math.floor(Math.random() * (max - min) + min);
 };
 
 export const useWordle = (): [Game, string, boolean] => {
-    const currentWord = words[rand(0, words.length - 1)];
+    const currentWord = words[getRandomInt(0, words.length - 1)];
     const [game, _setGame] = useState(
         createGame(words, currentWord, true)
     );
